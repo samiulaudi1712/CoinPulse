@@ -19,9 +19,9 @@ export async function fetcher<T>(
 
     const response = await fetch(url, {
         headers: {
-            "x-cg-demo-api-key": API_KEY, API_KEY,
+            "x-cg-demo-api-key": API_KEY,
             "Content-Type": "application/json"
-        } as Record<string, string>,
+        } as Record<string, string>, signal: AbortSignal.timeout(10000),
         next: {
             revalidate
         }

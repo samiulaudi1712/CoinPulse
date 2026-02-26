@@ -2,8 +2,7 @@ import React from 'react'
 import { fetcher } from '@/lib/fetcher'
 import { formatCurrency } from '@/lib/utils';
 
-const CoinOverview = async () => {
-    const coin = await fetcher<CoinDetailsData>('/coins/bitcoin');
+const CoinOverview = ({ coin }: { coin: CoinDetailsData }) => {
   return (
     <div id="coin-overview">
           <div className="header pt-2">

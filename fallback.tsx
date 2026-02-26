@@ -33,13 +33,13 @@ export const TrendingCoinsFallback = () => {
       <p className="mb-4">Trending Coins</p>
       <DataTable
         columns={[
-          { accessorKey: 'name', header: 'Name' },
-          { accessorKey: 'symbol', header: 'Symbol' },
-          { accessorKey: 'price', header: 'Price' },
-          { accessorKey: 'change24h', header: '24h Change' },
+                    { header: 'Name', cell: (row) => row.name },
+         { header: 'Symbol', cell: (row) => row.symbol },
+         { header: 'Price', cell: (row) => row.price },
+         { header: '24h Change', cell: (row) => row.change24h },
         ]}
         data={skeletonRows}
-        rowKey={(_, index) => index}
+       rowKey={(row) => row.id}
       />
     </div>
   )
