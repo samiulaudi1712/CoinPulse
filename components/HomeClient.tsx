@@ -1,4 +1,5 @@
 import React, { Suspense } from 'react'
+import { formatCurrency } from '@/lib/utils'
 import TrendingCoins from '@/components/TrendingCoins'
 import CoinOverview from './home/CoinOverview'
 import { CoinOverviewFallback, TrendingCoinsFallback } from './home/fallback'
@@ -8,7 +9,7 @@ const HomeClient = ({ coin }: { coin: CoinDetailsData }) => {
     <main className="main-container">
       <section className="home-grid">
         <Suspense fallback={<CoinOverviewFallback />}>
-          <CoinOverview coin={coin} />
+          <CoinOverview />
         </Suspense>
         <Suspense fallback={<TrendingCoinsFallback />}>
           <TrendingCoins />
