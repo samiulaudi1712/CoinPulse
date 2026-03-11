@@ -1,10 +1,20 @@
 const BASE_URL = process.env.NEXT_PUBLIC_COINGECKO_BASE_URL;
 const API_KEY = process.env.NEXT_PUBLIC_COINGECKO_API_KEY;
 
+if (!BASE_URL) {
+    console.error('NEXT_PUBLIC_COINGECKO_BASE_URL is not configured');
+}
+
 export async function clientFetcher<T>(
     endpoint: string,
     params?: Record<string, string | number | boolean | undefined>,
 ): Promise<T> {
+
+         if (!BASE_URL) {
+        throw new Error('NEXT_PUBLIC_COINGECKO_BASE_URL is not configured');
+    }
+
+
     const query = new URLSearchParams();
     if (params) {
         Object.entries(params).forEach(([key, value]) => {

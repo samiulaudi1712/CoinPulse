@@ -1,9 +1,8 @@
 'use client';
 import { useState, useRef, useTransition, useEffect } from 'react';
-import { getCandlestickConfig, PERIOD_BUTTONS, PERIOD_CONFIG } from '@/constants';
+import { getCandlestickConfig, getChartConfig, PERIOD_BUTTONS, PERIOD_CONFIG } from '@/constants';
 import { CandlestickSeries, IChartApi, ISeriesApi, createChart } from 'lightweight-charts';
 import { clientFetcher } from '@/lib/client-fetcher';
-import { getChartConfig } from '@/lib/chartConfig';
 import { convertOHLCData } from '@/lib/utils';
 
 const CandlestickChart = ({
@@ -93,6 +92,14 @@ useEffect(() => {
 
 
 },[ohlcData,period]);
+
+useEffect(() => {
+    if (!chartRef.current) return;
+   const showTime = ['daily', 'weekly', 'monthly'].includes(period);
+    chartRef.current.applyOptions({
+        timeScale: { timeVisible: showTime },
+    });
+}, [period]);
 
     return (
         <div id="candlestick-chart">
