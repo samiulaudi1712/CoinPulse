@@ -43,63 +43,40 @@ const CandlestickChart = ({
     };
 
     useEffect(() => {
-    const container = chartContainerRef.current;
-    if (!container) return;
-    const showTime = ['daily', 'weekly', 'monthly'].includes(period);
-    const chart = createChart(container, {
-        ...getChartConfig(height, showTime),
-        width: container.clientWidth,
-    });
-    const series = chart.addSeries(CandlestickSeries, getCandlestickConfig());
-    series.setData(convertOHLCData(ohlcData));
+        const container = chartContainerRef.current;
+        if (!container) return;
+        const showTime = ['daily', 'weekly', 'monthly'].includes(period);
+        const chart = createChart(container, {
+            ...getChartConfig(height, showTime),
+            width: container.clientWidth,
+        });
+        const series = chart.addSeries(CandlestickSeries, getCandlestickConfig());
+        series.setData(convertOHLCData(ohlcData));
+        chart.timeScale().fitContent();
+        chartRef.current = chart;
+        candleSeriesRef.current = series;
 
-    chart.timeScale().fitContent();
-    chartRef.current = chart;
-    candleSeriesRef.current = series;
+        const observer = new ResizeObserver(entries => {
+            if (!entries.length) return;
+            chart.applyOptions({ width: entries[0].contentRect.width });
+        });
+        observer.observe(container);
 
-    const observer=new ResizeObserver(entries => {
-        if(!entries.length) return;
-    
-        chart.applyOptions({ width: entries[0].contentRect.width });
-    
-    
-    })
+        return () => {
+            observer.disconnect();
+            chart.remove();
+            chartRef.current = null;
+            candleSeriesRef.current = null;
+        };
+    }, [height, ohlcData]);
 
-observer.observe(container);
-
-return() => {
-    observer.disconnect();
-    chart.remove();
-    chartRef.current = null;
-    candleSeriesRef.current = null;
-};
-}, [height]);
-
-
-
-useEffect(() => {
-
-    if(!candleSeriesRef.current) return;
-
-    const convertedToSeconds=ohlcData.map((item)=> 
-        [Math.floor(item[0]/1000), item[1], item[2], item[3], item[4]] as OHLCData,
-    );
-
-    const converted= convertOHLCData(convertedToSeconds);
-    candleSeriesRef.current.setData(converted);
-    chartRef.current?.timeScale().fitContent();
-
-
-
-},[ohlcData,period]);
-
-useEffect(() => {
-    if (!chartRef.current) return;
-   const showTime = ['daily', 'weekly', 'monthly'].includes(period);
-    chartRef.current.applyOptions({
-        timeScale: { timeVisible: showTime },
-    });
-}, [period]);
+    useEffect(() => {
+        if (!chartRef.current) return;
+        const showTime = ['daily', 'weekly', 'monthly'].includes(period);
+        chartRef.current.applyOptions({
+            timeScale: { timeVisible: showTime },
+        });
+    }, [period]);
 
     return (
         <div id="candlestick-chart">

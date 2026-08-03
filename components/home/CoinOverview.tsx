@@ -22,6 +22,7 @@ const CoinOverview = async ({ coin: initialCoin }: { coin?: CoinDetailsData }) =
 
     coin = coinData;
     coinOHLCData = ohlcData;
+    console.log('CoinOverview ohlcData length:', coinOHLCData?.length);
   } catch (error) {
     console.error('Error fetching coin data:', error);
   }
@@ -30,7 +31,10 @@ const CoinOverview = async ({ coin: initialCoin }: { coin?: CoinDetailsData }) =
 
   return (
     <div id="coin-overview">
-       <CandlestickChart data={coinOHLCData} coinId={coinId}>
+       <CandlestickChart data={coinOHLCData ??[]} coinId={coinId}>
+
+    
+
         <div className="header pt-2">
           <img src={coin.image.large} alt={coin.name} width={56} height={56} />
           <div className="info">

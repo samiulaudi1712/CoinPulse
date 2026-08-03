@@ -4,7 +4,7 @@ import TrendingCoinsClient from '@/components/TrendingCoinsClient'
 
 const TrendingCoins = async () => {
   const { coins } = await fetcher<{ coins: TrendingCoin[] }>('/search/trending', undefined, 300);
-  return <TrendingCoinsClient coins={coins} />
+  return <TrendingCoinsClient coins={coins.slice(0,6)} />
 }
 
 export default TrendingCoins

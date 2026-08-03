@@ -35,7 +35,7 @@ const DataTable = <T,>({
         {data.map((row, index) => (
           <TableRow key={rowKey ? rowKey(row, index) : index} className={cn('overflow-hidden rounded-lg border-b border-purple-100/5 hover:bg-dark-400/30! relative', bodyRowClassName)}>
             {columns.map((col, i) => (
-              <TableCell key={i} className={cn('py-4 first:pl-5 last:pr-5', col.cellClassName)}>
+              <TableCell key={i} className={cn('py-4 first:pl-5 last:pr-5', col.cellClassName,bodyCellClassName)}>
                 {col.cell(row, index)}
               </TableCell>
             ))}

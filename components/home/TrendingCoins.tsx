@@ -27,13 +27,15 @@ const columns: DataTableColumn<TrendingCoin>[] = [
     cell: (coin) => {
       const item = coin.item;
       const isTrendingUp = item.data.price_change_percentage_24h.usd > 0;
+      const change = item.data.price_change_percentage_24h.usd;
       return (
-        <div className={cn('price-change', isTrendingUp ? 'text-green-500' : 'text-red-500')}>
+        <div className={cn('price-change flex items-center gap-1', isTrendingUp ? 'text-green-500' : 'text-red-500')}>
           {isTrendingUp ? <TrendingUp width={16} height={16} /> : <TrendingDown width={16} height={16} />}
+          <p>{change > 0 ? '+' : ''}{change.toFixed(2)}%</p>
         </div>
       )
     }
-  },
+},
   {
     header: 'Price',
     cellClassName: 'price-cell',
